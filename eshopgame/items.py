@@ -18,3 +18,4 @@ class EshopgameItem(scrapy.Item):
     game_size = scrapy.Field()
     player_num = scrapy.Field()
     online_player_num = scrapy.Field()
+    true_imgurl = scrapy.Field()
