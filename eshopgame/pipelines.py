@@ -26,13 +26,14 @@ class EshopgameImagePipeline(ImagesPipeline):
 #     重命名，若不重写这函数，图片名为哈希，就是一串乱七八糟的名字
 #     接收上面meta传递过来的图片名称
 # 　　我写的图片名
-    # def file_path(self, request, response=None, info=None):
-    #     # name = request.meta['name']
-    #     # 根据情况来选择,如果保存图片的名字成一个体系,那么可以使用这个
-    #     filename  = request.url.split('/')[-1]
-    #     return filename
+    def file_path(self, request, response=None, info=None):
+        # name = request.meta['name']
+        # 根据情况来选择,如果保存图片的名字成一个体系,那么可以使用这个
+        filename  = request.url.split('/')[-1]
+        return filename
 
     def item_completed(self, results, item, info):
+        # 是一个元组，第一个元素是布尔值表示是否成功
         image_paths = [x['path'] for ok, x in results if ok]
         if not image_paths:
             raise DropItem("Item contains no images")
@@ -47,10 +48,10 @@ class EshopgameMysqlPipeline:
         # 使用cursor()方法获取操作游标 
         cursor = db.cursor()
         # SQL 插入语句
-        sql = "INSERT INTO EMPLOYEE(game_name, \
-                sale_time, price, imgurl, true_imgurl,supported_platforms,game_type,publisher,language,game_size,player_num,online_player_num,ctime) \
-                VALUES ('%s', '%s', '%s',  '%s',  '%s','%s','%s','%s','%s','%s','%s','%s','%s')" % \
-                (item['game_name'], item['sale_time'], item['price'], item['imgurl'], item['true_imgurl'],item['supported_platforms'],item['game_type'],item['publisher'],item['language'],item['game_size'],item['player_num'],item['online_player_num'],now_time)
+        sql = "INSERT INTO eshop_game(game_name, \
+                sale_time, price, imgurl,supported_platforms,game_type,publisher,language,game_size,player_num,online_player_num,ctime) \
+                VALUES ('%s', '%s', '%s',  '%s','%s','%s','%s','%s','%s','%s','%s','%s')" % \
+                (item['game_name'], item['sale_time'], item['price'], item['imgurl'],item['supported_platforms'],item['game_type'],item['publisher'],item['language'],item['game_size'],item['player_num'],item['online_player_num'],now_time)
 
         try:
             # 执行sql语句

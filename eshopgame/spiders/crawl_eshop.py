@@ -12,15 +12,20 @@ class CrawlEshopSpider(scrapy.Spider):
 
     def parse(self, response):
         self.data = EshopgameItem()
+        # # d = response.xpath('//div[@class="category-product-list"]/div[@class="category-product-item"]')[0]
+        # # self.data['imgurl'] = d.xpath('.//div[1]/a/span/span/img/@data-src').extract_first()
+        # # yield self.data
+        i = 3
         for val in response.xpath('//div[@class="category-product-list"]/div[@class="category-product-item"]'):
             #下面是获取该节点下面所有的字符串，包括子节点下面的字符串
             # sale_date = val.xpath('.//div[2]/div[1]/div[1]')[0]
             # data['sale_date'] = sale_date.xpath('string(.)').extract_first()
-            self.data['price'] = val.xpath('.//div[2]/div[1]/div[2]/div[1]/span[1]/span[1]/span[1]/text()').extract_first()
-            self.data['imgurl'] = val.xpath('.//div[1]/a/span/span/img/@data-src').extract_first()
-            detail_info = val.xpath('.//div[1]/a/@href').extract_first()
-            if detail_info:
-                yield scrapy.Request(url=detail_info,callback=self.parse_detailinfo)
+            if i == 3:
+                self.data['price'] = val.xpath('.//div[2]/div[1]/div[2]/div[1]/span[1]/span[1]/span[1]/text()').extract_first()
+                self.data['imgurl'] = val.xpath('.//div[1]/a/span/span/img/@data-src').extract_first()
+                detail_info = val.xpath('.//div[1]/a/@href').extract_first()
+                if detail_info:
+                    yield scrapy.Request(url=detail_info,callback=self.parse_detailinfo)
 
     def parse_detailinfo(self,response):
 
