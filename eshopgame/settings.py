@@ -64,7 +64,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-#    'eshopgame.pipelines.EshopgameImagePipeline':200,
+   'eshopgame.pipelines.EshopgameImagePipeline':200,
    'eshopgame.pipelines.EshopgameMysqlPipeline': 300
 }
 

@@ -37,7 +37,7 @@ class EshopgameImagePipeline(ImagesPipeline):
         image_paths = [x['path'] for ok, x in results if ok]
         if not image_paths:
             raise DropItem("Item contains no images")
-        item['true_imgurl'] = image_paths
+        item['true_imgurl'] = image_paths[0]
         return item
 
 class EshopgameMysqlPipeline:
@@ -49,9 +49,9 @@ class EshopgameMysqlPipeline:
         cursor = db.cursor()
         # SQL 插入语句
         sql = "INSERT INTO eshop_game(game_name, \
-                sale_time, price, imgurl,supported_platforms,game_type,publisher,language,game_size,player_num,online_player_num,ctime) \
-                VALUES ('%s', '%s', '%s',  '%s','%s','%s','%s','%s','%s','%s','%s','%s')" % \
-                (item['game_name'], item['sale_time'], item['price'], item['imgurl'],item['supported_platforms'],item['game_type'],item['publisher'],item['language'],item['game_size'],item['player_num'],item['online_player_num'],now_time)
+                sale_time, price, imgurl,true_imgurl,supported_platforms,game_type,publisher,language,game_size,player_num,online_player_num,ctime) \
+                VALUES ('%s', '%s', '%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')" % \
+                (item['game_name'], item['sale_time'], item['price'], item['imgurl'],item['true_imgurl'],item['supported_platforms'],item['game_type'],item['publisher'],item['language'],item['game_size'],item['player_num'],item['online_player_num'],now_time)
 
         try:
             # 执行sql语句
